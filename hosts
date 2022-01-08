@@ -1,2 +1,0 @@
-[servers]
-server1 ansible_host=172.16.1.25
