@@ -24,4 +24,3 @@ Proxy przekierowuje zapytania z portu 80 i domeny podanej jako zmienna *status_h
 - Wynik
 ![wp_run](img/status_result.png)
 - Infrastruktura sieciowa w ramach której działa usługa proxy i aplikacja
-![wp_run](img/status_network.png)
