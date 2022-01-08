@@ -3,6 +3,8 @@
 ---
 - hosts: servers
   become: true
+  vars_files:
+    - vars/default.yml
   
   tasks:    
     - name: Install prerequisites
@@ -14,3 +16,11 @@
           - php-mysql
           - libapache2-mod-php
         state: present
+    - name: Create document root
+      file:
+        path: "/var/www/{{ http_host }}"
+        state: directory
+        owner: "www-data"
+        group: "www-data"
+        mode: '0755'
+      tags: [ apache ]
