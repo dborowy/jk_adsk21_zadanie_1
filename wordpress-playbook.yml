@@ -1,0 +1,16 @@
+# ADSK 2021 Wordpress playbook - Dominik Borowy
+
+---
+- hosts: servers
+  become: true
+  
+  tasks:    
+    - name: Install prerequisites
+      ansible.builtin.package:
+        name:
+          - apache
+          - mysql-server
+          - php
+          - php-mysql
+          - libapache2-mod-php
+        state: present
