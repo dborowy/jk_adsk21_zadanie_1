@@ -3,10 +3,12 @@
 ---
 - hosts: all
   become: true
+  vars_files:
+    - vars/default.yml
 
 # Packages
   tasks:      
-      - name: Download docker install script
+      - name: Download Docker install script
         get_url:
           url: https://get.docker.com
           dest: /tmp/get-docker.sh
@@ -17,10 +19,34 @@
           cmd: sh get-docker.sh
         become: yes
 
-      - name: Run proxy server
-        become: yes
-        shell: docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro nginxproxy/nginx-proxy
+      - name: Download Docker Compose
+        shell: 
+          cmd: curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          warn: no
 
-      - name: Run status page
+      - name: Apply executable permissions to the Docker Compose binary
+        file:
+          dest: /usr/local/bin/docker-compose
+          mode: +x
+
+      - name: Add DNS records
+        shell: echo "127.0.0.1 {{ status_host }}" | sudo tee -a /etc/hosts
+
+      - name: Create server root
+        file:
+          path: "/srv/status-page"
+          state: directory
+          owner: "root"
+          group: "root"
+          mode: '0777'
+
+      - name: Create docker-compose file
+        template:
+          src: "files/docker-compose.yml.j2"
+          dest: "/srv/status-page/docker-compose.yml"
+
+      - name: Run proxy server and status page
+        shell: 
+          chdir: /srv/status-page
+          cmd: docker-compose up -d
         become: yes
-        shell: docker run -d --restart=always --expose 3001 -e VIRTUAL_HOST=status-page --name uptime-kuma louislam/uptime-kuma

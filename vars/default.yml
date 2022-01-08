@@ -12,3 +12,6 @@ mysql_password: "root"
 http_host: "localhost"
 http_conf: "localhost.conf"
 http_port: "80"
+
+#Status-page settings
+status_host: "status-page"
