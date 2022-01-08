@@ -1,0 +1,26 @@
+# ADSK 2021 Status page + proxy playbook - Dominik Borowy
+
+---
+- hosts: all
+  become: true
+
+# Packages
+  tasks:      
+      - name: Download docker install script
+        get_url:
+          url: https://get.docker.com
+          dest: /tmp/get-docker.sh
+
+      - name: Install Docker
+        shell:
+          chdir: /tmp
+          cmd: sh get-docker.sh
+        become: yes
+
+      - name: Run proxy server
+        become: yes
+        shell: docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro nginxproxy/nginx-proxy
+
+      - name: Run status page
+        become: yes
+        shell: docker run -d --restart=always --expose 3001 -e VIRTUAL_HOST=status-page --name uptime-kuma louislam/uptime-kuma
