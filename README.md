@@ -3,7 +3,7 @@
 ## Ansible - Wordpress
 Zadanie: https://e-uczelnia.uek.krakow.pl/mod/assign/view.php?id=738743
 
-Ansible playbook tego zdania znajduję się w pliku *wordpress-playbook.yml*
+Ansible playbook tego zadania znajduję się w pliku *wordpress-playbook.yml*
 
 
 - Uruchomienie
@@ -14,7 +14,7 @@ Ansible playbook tego zdania znajduję się w pliku *wordpress-playbook.yml*
 ## Ansible - Status-page + proxy
 Zadanie: https://e-uczelnia.uek.krakow.pl/mod/assign/view.php?id=738744
 
-Ansible playbook tego zdania znajduję się w pliku *status-page-playbook.yml*
+Ansible playbook tego zadania znajduję się w pliku *status-page-playbook.yml*
 
 Playbook instaluje Dockera i następnie wystawia skonteneryzowane wersje serwera proxy oraz prostego status-page'a.<br>
 Proxy przekierowuje zapytania z portu 80 i domeny podanej jako zmienna *status_host* w pliku *vars/default.yml* na port 3001 kontenera status-page.
